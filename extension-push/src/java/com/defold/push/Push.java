@@ -345,8 +345,11 @@ public class Push {
         FirebaseOptions.Builder builder = new FirebaseOptions.Builder()
             .setApplicationId(this.applicationIdFCM)
             .setGcmSenderId(this.senderIdFCM);
-        FirebaseApp.initializeApp(activity, builder.build());
-
+        try {
+            FirebaseApp.getInstance();
+        } catch (IllegalStateException e) {
+            FirebaseApp.initializeApp(activity, builder.build());
+        }
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
